@@ -26,7 +26,7 @@ articleView.handleAuthorFilter = function() {
             those articles that match the value, and then fade them in.
         */
       $('article').hide();
-      $('article[data-author="' + $(this).val() +'" ]').fadeIn();
+      $('article[data-author="'+ $(this).val() +'" ]').fadeIn();
     } else {
     /* Otherwise, we should:
         1. Show all the articles except the template */
@@ -37,26 +37,41 @@ articleView.handleAuthorFilter = function() {
 };
 
 articleView.handleCategoryFilter = function() {
-  /* TODO: Just like we do for #author-filter above, we should also handle
+  $('#category-filter').on('change', function() {
+    if ($(this).val()){
+      $('article').hide();
+      $('article[data-category="' +$(this).val() +'"]').fadeIn();
+    }
+
+  /* TODO: DONE Just like we do for #author-filter above, we should also handle
   change events on the #category-filter element. Be sure to reset the
   #author-filter while you're at it! */
-};
+});
 
 articleView.handleMainNav = function () {
   $('.main-nav').on('click', '.tab', function() {
-    /* TODO:
+      $('.tab-content').hide();
+      $('#'+(this).data('content')).fadeIn();
+    })
+    /* TODO: DONE
       1. Hide all of the .tab-content sections
       2. Fade in the single .tab-content section that is
         associated with the .tab element's data-content attribute.
     */
-  });
+  };
   $('.main-nav .tab:first').click();
 };
 
 articleView.setTeasers = function() {
   // Truncate logic to show only first two elements within the article body.
   $('.article-body *:nth-of-type(n+2)').hide();
-  /* TODO: Add a delegated event handler to reveal the remaining paragraphs.
+  $('#articles').on('click', 'a.read-on', function(event){
+    event.preventDefault();
+    $(this).parent().find('*').show();
+    $(this).hide();
+  })
+
+  /* TODO:DONE Add a delegated event handler to reveal the remaining paragraphs.
     When a .read-on link is clicked, we can:
     1. Prevent the default action of a link.
     2. Reveal everything in that particular article now.
@@ -70,4 +85,4 @@ articleView.handleAuthorFilter();
 articleView.handleCategoryFilter();
 articleView.handleMainNav();
 articleView.setTeasers();
-// TODO: Invoke all of the above functions (I mean, methods!):
+// TODO: DONEInvoke all of the above functions (I mean, methods!):
